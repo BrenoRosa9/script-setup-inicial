@@ -61,12 +61,14 @@ $manual = [ordered]@{
 }
 
 $ok = @(); $skip = @(); $fail = @()
+$timer = [Diagnostics.Stopwatch]::StartNew()
 $i = 0
 foreach ($entry in $apps) {
     $id, $source = $entry -split '\|'
     if (-not $source) { $source = 'winget' }
     $i++
     Write-Host "[$i/$($apps.Count)] $id" -ForegroundColor Cyan
+    $Host.UI.RawUI.WindowTitle = "Instalando $i/$($apps.Count): $id"
 
     winget list --id $id -e --accept-source-agreements --disable-interactivity *> $null
     if ($LASTEXITCODE -eq 0) {
@@ -113,8 +115,11 @@ foreach ($app in $github) {
     }
 }
 
+$tempo = '{0:hh\:mm\:ss}' -f $timer.Elapsed
+$Host.UI.RawUI.WindowTitle = 'Instalacao concluida'
+
 Write-Host "`n===== Resumo =====" -ForegroundColor Green
-Write-Host "Instalados: $($ok.Count)   Pulados: $($skip.Count)   Falhas: $($fail.Count)"
+Write-Host "Instalados: $($ok.Count)   Pulados: $($skip.Count)   Falhas: $($fail.Count)   Tempo: $tempo"
 if ($fail) {
     Write-Host 'Falharam:' -ForegroundColor Red
     $fail | ForEach-Object { Write-Host "  - $_" }
@@ -127,3 +132,11 @@ if ($manual.Count) {
         if (-not $DryRun) { Start-Process $manual[$name] }
     }
 }
+
+# Aviso de fim: bipe + janela pop-up por cima de tudo
+$msg = "Instalados: $($ok.Count)`nPulados: $($skip.Count)`nFalhas: $($fail.Count)`nTempo: $tempo"
+if ($fail) { $msg += "`n`nFalharam:`n" + ($fail -join "`n") }
+if ($manual.Count) { $msg += "`n`nInstalar manualmente: " + ($manual.Keys -join ', ') }
+$icone = if ($fail) { 48 } else { 64 }   # 48 = alerta, 64 = informacao
+1..3 | ForEach-Object { [Console]::Beep(880, 200) }
+$null = (New-Object -ComObject WScript.Shell).Popup($msg, 0, 'Script de formatacao terminou', $icone + 0x40000)
