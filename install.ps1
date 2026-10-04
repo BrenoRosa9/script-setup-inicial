@@ -119,7 +119,8 @@ $tempo = '{0:hh\:mm\:ss}' -f $timer.Elapsed
 $Host.UI.RawUI.WindowTitle = 'Instalacao concluida'
 
 Write-Host "`n===== Resumo =====" -ForegroundColor Green
-Write-Host "Instalados: $($ok.Count)   Pulados: $($skip.Count)   Falhas: $($fail.Count)   Tempo: $tempo"
+$rotulo = if ($DryRun) { 'Seriam instalados (simulacao)' } else { 'Instalados' }
+Write-Host "${rotulo}: $($ok.Count)   Pulados: $($skip.Count)   Falhas: $($fail.Count)   Tempo: $tempo"
 if ($fail) {
     Write-Host 'Falharam:' -ForegroundColor Red
     $fail | ForEach-Object { Write-Host "  - $_" }
@@ -134,7 +135,7 @@ if ($manual.Count) {
 }
 
 # Aviso de fim: bipe + janela pop-up por cima de tudo
-$msg = "Instalados: $($ok.Count)`nPulados: $($skip.Count)`nFalhas: $($fail.Count)`nTempo: $tempo"
+$msg = "${rotulo}: $($ok.Count)`nPulados: $($skip.Count)`nFalhas: $($fail.Count)`nTempo: $tempo"
 if ($fail) { $msg += "`n`nFalharam:`n" + ($fail -join "`n") }
 if ($manual.Count) { $msg += "`n`nInstalar manualmente: " + ($manual.Keys -join ', ') }
 $icone = if ($fail) { 48 } else { 64 }   # 48 = alerta, 64 = informacao
