@@ -35,6 +35,7 @@ $apps = @(
     # --- Comunicação / mídia ---
     'Spotify.Spotify'
     'Discord.Discord'
+    'Microsoft.Outlook'                   # novo Outlook (grátis); no Win11 já vem instalado
 
     # --- Jogos ---
     'Valve.Steam'
