@@ -1,4 +1,4 @@
-﻿# script-formatacao
+# script-setup-inicial
 
 Instala todos os meus programas depois de formatar o PC, usando o `winget`.
 
@@ -7,7 +7,7 @@ Instala todos os meus programas depois de formatar o PC, usando o `winget`.
 Abra o PowerShell **como Administrador** e rode:
 
 ```powershell
-Set-ExecutionPolicy Bypass -Scope Process -Force; irm https://raw.githubusercontent.com/BrenoRosa9/script-formatacao/main/install.ps1 | iex
+Set-ExecutionPolicy Bypass -Scope Process -Force; irm https://raw.githubusercontent.com/BrenoRosa9/script-setup-inicial/main/install.ps1 | iex
 ```
 
 Pra simular sem instalar nada, baixe o arquivo e rode `.\install.ps1 -DryRun`.

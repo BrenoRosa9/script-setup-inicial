@@ -1,5 +1,5 @@
 # ============================================================
-#  Setup do PC pós-formatação (winget)
+#  Setup inicial do PC (rodar depois de formatar) (winget)
 #  Uso: abra o PowerShell como Administrador e rode:
 #     Set-ExecutionPolicy Bypass -Scope Process -Force; .\install.ps1
 #  Simular sem instalar nada:
@@ -140,4 +140,4 @@ if ($fail) { $msg += "`n`nFalharam:`n" + ($fail -join "`n") }
 if ($manual.Count) { $msg += "`n`nInstalar manualmente: " + ($manual.Keys -join ', ') }
 $icone = if ($fail) { 48 } else { 64 }   # 48 = alerta, 64 = informacao
 1..3 | ForEach-Object { [Console]::Beep(880, 200) }
-$null = (New-Object -ComObject WScript.Shell).Popup($msg, 0, 'Script de formatacao terminou', $icone + 0x40000)
+$null = (New-Object -ComObject WScript.Shell).Popup($msg, 0, 'Setup inicial terminou', $icone + 0x40000)
