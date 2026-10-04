@@ -57,7 +57,7 @@ $github = @(
 
 # Sem pacote nenhum: abre a página oficial pra baixar na mão
 $manual = [ordered]@{
-    'uTorrent' = 'https://www.utorrent.com/downloads/win/'
+    # 'Nome' = 'https://site-oficial/download'
 }
 
 $ok = @(); $skip = @(); $fail = @()
